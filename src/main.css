@@ -1,0 +1,19 @@
+html,
+body {
+    height: 100%;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+}
+h1 {
+    color: #e3d796;
+}
+a {
+    color: white;
+    font-weight: bold;
+}
