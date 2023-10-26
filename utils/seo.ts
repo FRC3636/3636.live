@@ -5,8 +5,8 @@ import type { ManifestOptions } from "vite-plugin-pwa";
  * Defines the default SEO configuration for the website.
  */
 export const seoConfig = {
-    baseURL: "https://lewismcclelland.me", // Change this to your production URL.
-    description: "Lewis McClelland's personal website", // Change this to be your website's description.
+    baseURL: "https://3636.live", // Change this to your production URL.
+    description: "Stream live matches from 3636 Generals Robotics", // Change this to be your website's description.
     type: "website",
     image: {
         url: "/android-chrome-512x512.png",
@@ -14,13 +14,13 @@ export const seoConfig = {
         width: 512,
         height: 512,
     },
-    siteName: "Lewis McClelland", // Change this to your website's name,
+    siteName: "3636.live - Generals Robotics", // Change this to your website's name,
 };
 export const manifest: Partial<ManifestOptions> = {
     name: seoConfig.siteName, // Change this to your website's name.
     short_name: seoConfig.siteName, // Change this to your website's short name.
     description: seoConfig.description, // Change this to your websites description.
-    theme_color: "#e3d796", // Change this to your primary color.
+    theme_color: "#ffffff", // Change this to your primary color.
     background_color: "#000000", // Change this to your background color.
     icons: [
         {
