@@ -6,10 +6,6 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
     <h1>3636.live</h1>
-    <p>
-        This website will redirect you to the current Generals Robotics match
-        live stream in the future!
-    </p>
     <p id="status-message">Loading...</p>
     <p>
         Contact me:
@@ -40,12 +36,15 @@ import Layout from "../layouts/Layout.astro";
                 const startDate = parseTBADate(event.start_date);
                 const endDate = parseTBADate(event.end_date);
                 // make it end at midnight
-                endDate.setTime(endDate.getTime() + 86_400_000);
-                const currentDate = new Date();
+                endDate.setDate(endDate.getDate() + 1);
+                const now = Date.now();
 
                 if (
-                    startDate.getTime() < currentDate.getTime() &&
-                    endDate.getTime() > currentDate.getDate()
+                    startDate.getTime() < now &&
+                    endDate.getTime() > now &&
+                    (event.webcasts as any[]).some(
+                        (webcast) => webcast.type === "twitch",
+                    )
                 ) {
                     currentEvent = event;
                     break;
@@ -56,11 +55,10 @@ import Layout from "../layouts/Layout.astro";
                     "Come back during an event to watch Generals Robotics play live!\nThis page will automatically update.";
                 return;
             }
-            const webcast = currentEvent.webcasts[0];
-            if (webcast.type !== "twitch") {
-                throw new Error("Webcast should be a twitch stream");
-            }
-            location.href = `https://twitch.tv/${webcast.channel}`;
+            const webcast = currentEvent.webcasts.find(
+                (webcast: any) => webcast.type === "twitch",
+            )!;
+            location.href = "https://twitch.tv/" + webcast.channel;
         })
         .catch((err) => {
             console.error(err);
