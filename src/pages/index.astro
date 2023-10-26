@@ -10,8 +10,61 @@ import Layout from "../layouts/Layout.astro";
         This website will redirect you to the current Generals Robotics match
         live stream in the future!
     </p>
+    <p id="status-message">Loading...</p>
     <p>
         Contact me:
         <a href="mailto:lewis@lewismcclelland.me">lewis@lewismcclelland.me</a>
     </p>
 </Layout>
+<script>
+    const message =
+        document.querySelector<HTMLParagraphElement>("#status-message")!;
+
+    function parseTBADate(str: string): Date {
+        const components = str.split("-").map(Number);
+        return new Date(components[0], components[1] - 1, components[2]);
+    }
+
+    const token =
+        "so0SvVKeaahtln5ZpW01gMUqPYh6BTNt62v4rdS8llC8X0T2U2mEtcHlA4Zi7g9f";
+    const team = "frc3636";
+    fetch(`https://www.thebluealliance.com/api/v3/team/${team}/events`, {
+        headers: {
+            "X-TBA-Auth-Key": token,
+        },
+    })
+        .then((res) => res.json())
+        .then((events) => {
+            let currentEvent: any;
+            for (const event of events) {
+                const startDate = parseTBADate(event.start_date);
+                const endDate = parseTBADate(event.end_date);
+                // make it end at midnight
+                endDate.setTime(endDate.getTime() + 86_400_000);
+                const currentDate = new Date();
+
+                if (
+                    startDate.getTime() < currentDate.getTime() &&
+                    endDate.getTime() > currentDate.getDate()
+                ) {
+                    currentEvent = event;
+                    break;
+                }
+            }
+            if (!currentEvent) {
+                message.textContent =
+                    "Come back during an event to watch Generals Robotics play live!\nThis page will automatically update.";
+                return;
+            }
+            const webcast = currentEvent.webcasts[0];
+            if (webcast.type !== "twitch") {
+                throw new Error("Webcast should be a twitch stream");
+            }
+            location.href = `https://twitch.tv/${webcast.channel}`;
+        })
+        .catch((err) => {
+            console.error(err);
+            message.textContent =
+                "Oops! Something went wrong and the stream is not currently available.\n (Are you a nerd? Check the developer console.)";
+        });
+</script>
