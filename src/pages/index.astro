@@ -71,7 +71,7 @@ import Layout from "../layouts/Layout.astro";
 
                 if (
                     startDate.getTime() < now &&
-                    // endDate.getTime() > now &&
+                    endDate.getTime() > now &&
                     (event.webcasts as any[]).some(
                         (webcast) => webcast.type === "twitch",
                     )
