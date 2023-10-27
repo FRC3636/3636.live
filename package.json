@@ -2,6 +2,7 @@
     "name": "3636-live",
     "type": "module",
     "version": "0.0.1",
+    "license": "ISC",
     "scripts": {
         "dev": "astro dev",
         "start": "astro dev",
