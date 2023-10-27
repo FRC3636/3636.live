@@ -5,16 +5,45 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-    <h1>3636.live</h1>
-    <p id="status-message">Loading...</p>
-    <p>
+    <h1>
+        <img
+            src="/assets/logo.png"
+            alt="FRC 3636 Generals Robotics"
+            width="100"
+            draggable="false"
+        />
+    </h1>
+    <br />
+    <div class="loading" id="message">
+        <div class="lds-dual-ring">
+            <p class="scr-only">Loading...</p>
+        </div>
+        <div id="wait-msg">
+            <h2>Come back soon!</h2>
+            <p>
+                Come to this page during an event to watch Generals Robotics
+                play live.
+            </p>
+        </div>
+        <div id="error-msg">
+            <h2>Oh no!</h2>
+            <p>
+                Something went wrong, so we can't automatically send you to the
+                stream. You might have luck finding it on
+                <a href="https://www.thebluealliance.com/team/3636">
+                    The Blue Alliance.
+                </a>
+            </p>
+            <p>(Are you a nerd? Check the developer console.)</p>
+        </div>
+    </div>
+    <p class="bottom">
         Contact me:
         <a href="mailto:lewis@lewismcclelland.me">lewis@lewismcclelland.me</a>
     </p>
 </Layout>
 <script>
-    const message =
-        document.querySelector<HTMLParagraphElement>("#status-message")!;
+    const message = document.querySelector<HTMLDivElement>("#message")!;
 
     function parseTBADate(str: string): Date {
         const components = str.split("-").map(Number);
@@ -51,8 +80,7 @@ import Layout from "../layouts/Layout.astro";
                 }
             }
             if (!currentEvent) {
-                message.textContent =
-                    "Come back during an event to watch Generals Robotics play live!\nThis page will automatically update.";
+                message.className = "wait";
                 return;
             }
             const webcast = currentEvent.webcasts.find(
@@ -62,7 +90,6 @@ import Layout from "../layouts/Layout.astro";
         })
         .catch((err) => {
             console.error(err);
-            message.textContent =
-                "Oops! Something went wrong and the stream is not currently available.\n (Are you a nerd? Check the developer console.)";
+            message.className = "error";
         });
 </script>

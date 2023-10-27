@@ -1,7 +1,10 @@
+@import "./loading.css";
+
 html,
 body {
     height: 100%;
 }
+
 body {
     display: flex;
     align-items: center;
@@ -9,9 +12,18 @@ body {
     flex-direction: column;
     background-color: black;
     color: white;
+    padding: 5rem;
 }
 
 a {
     color: white;
     font-weight: bold;
+}
+
+h2 {
+    text-align: center;
+}
+
+.bottom {
+    margin: auto 0 0 0;
 }
