@@ -5,7 +5,7 @@ import { manifest } from "./utils/seo";
 // https://astro.build/config
 export default defineConfig({
     integrations: [],
-    site: "https://lewismcclelland.me",
+    site: "https://3636.live",
     vite: {
         plugins: [
             VitePWA({
