@@ -15,6 +15,7 @@ import Layout from "../layouts/Layout.astro";
     </h1>
     <br />
     <div class="loading" id="message">
+        <div class="lds-check"></div>
         <div class="lds-dual-ring">
             <p class="scr-only">Loading...</p>
         </div>
@@ -70,7 +71,7 @@ import Layout from "../layouts/Layout.astro";
 
                 if (
                     startDate.getTime() < now &&
-                    endDate.getTime() > now &&
+                    // endDate.getTime() > now &&
                     (event.webcasts as any[]).some(
                         (webcast) => webcast.type === "twitch",
                     )
@@ -86,6 +87,7 @@ import Layout from "../layouts/Layout.astro";
             const webcast = currentEvent.webcasts.find(
                 (webcast: any) => webcast.type === "twitch",
             )!;
+            message.className = "done";
             location.href = "https://twitch.tv/" + webcast.channel;
         })
         .catch((err) => {

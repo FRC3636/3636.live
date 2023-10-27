@@ -1,4 +1,7 @@
 /* message switcher */
+#message:not(.done) .lds-check {
+    display: none;
+}
 #message:not(.loading) .lds-dual-ring {
     display: none;
 }
@@ -41,4 +44,14 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* checkmark */
+.lds-check {
+    display: inline-block;
+    transform: rotate(45deg);
+    height: 64px;
+    width: 32px;
+    border-bottom: 7px solid #fff;
+    border-right: 7px solid #fff;
 }
