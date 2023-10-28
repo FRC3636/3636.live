@@ -14,7 +14,6 @@
         "@divriots/jampack": "^0.21.1",
         "astro": "^3.4.0",
         "astro-seo": "^0.8.0",
-        "gotham-fonts": "github:SergioFloresG/gotham-fonts",
         "modern-normalize": "^2.0.0",
         "preact": "^10.6.5",
         "vite-plugin-pwa": "^0.16.5"

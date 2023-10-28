@@ -14,9 +14,6 @@ dependencies:
   astro-seo:
     specifier: ^0.8.0
     version: 0.8.0
-  gotham-fonts:
-    specifier: github:SergioFloresG/gotham-fonts
-    version: github.com/SergioFloresG/gotham-fonts/48e72283ee36faafd5b0fe79f72c16cc374fa9b4
   modern-normalize:
     specifier: ^2.0.0
     version: 2.0.0
@@ -6835,10 +6832,4 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-    dev: false
-
-  github.com/SergioFloresG/gotham-fonts/48e72283ee36faafd5b0fe79f72c16cc374fa9b4:
-    resolution: {tarball: https://codeload.github.com/SergioFloresG/gotham-fonts/tar.gz/48e72283ee36faafd5b0fe79f72c16cc374fa9b4}
-    name: gotham-fonts
-    version: 1.0.2
     dev: false

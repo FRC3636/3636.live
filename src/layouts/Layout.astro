@@ -3,8 +3,6 @@ import { SEO } from "astro-seo";
 import "modern-normalize/modern-normalize.css";
 import "../main.css";
 import { seoConfig, manifest } from "../../utils/seo.ts";
-import gothamBook from "gotham-fonts/webfonts/Gotham-Book.woff2";
-import gothamBold from "gotham-fonts/webfonts/Gotham-Bold.woff2";
 
 export interface Props {
     title?: string;
@@ -46,14 +44,14 @@ const ogTitle = Astro.props.ogTitle ?? title;
         />
         <link
             rel="preload"
-            href={gothamBook}
+            href="/fonts/URWGothic-Demi.woff2"
             as="font"
             type="font/woff2"
             crossorigin
         />
         <link
             rel="preload"
-            href={gothamBold}
+            href="/fonts/URWGothic-Book.woff2"
             as="font"
             type="font/woff2"
             crossorigin
