@@ -17,8 +17,8 @@ import Layout from "../layouts/Layout.astro";
         <div id="wait-msg">
             <h2>Come back soon!</h2>
             <p>
-                Visit this page during an event that Generals Robotics is
-                participating in to watch our live matches.
+                Visit this page during an event including Generals Robotics to
+                watch live matches.
             </p>
         </div>
         <div id="error-msg">
@@ -39,6 +39,11 @@ import Layout from "../layouts/Layout.astro";
     </p>
 </Layout>
 <script>
+    const manualOverride = "";
+    if (manualOverride) {
+        location.href = manualOverride;
+    }
+
     const message = document.querySelector<HTMLDivElement>("#message")!;
 
     function parseTBADate(str: string): Date {
