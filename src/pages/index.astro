@@ -42,7 +42,7 @@ import Layout from "../layouts/Layout.astro";
     const manualOverride = "https://www.youtube.com/live/QxP-tWoO42E";
     if (manualOverride) {
         location.href = manualOverride;
-    }
+    } else {
 
     const message = document.querySelector<HTMLDivElement>("#message")!;
 
@@ -94,4 +94,5 @@ import Layout from "../layouts/Layout.astro";
             console.error(err);
             message.className = "error";
         });
+    }
 </script>
