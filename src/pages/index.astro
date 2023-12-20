@@ -39,60 +39,59 @@ import Layout from "../layouts/Layout.astro";
     </p>
 </Layout>
 <script>
-    const manualOverride = "https://www.youtube.com/live/QxP-tWoO42E";
+    const manualOverride = "";
     if (manualOverride) {
         location.href = manualOverride;
     } else {
+        const message = document.querySelector<HTMLDivElement>("#message")!;
 
-    const message = document.querySelector<HTMLDivElement>("#message")!;
+        function parseTBADate(str: string): Date {
+            const components = str.split("-").map(Number);
+            return new Date(components[0], components[1] - 1, components[2]);
+        }
 
-    function parseTBADate(str: string): Date {
-        const components = str.split("-").map(Number);
-        return new Date(components[0], components[1] - 1, components[2]);
-    }
-
-    const token =
-        "so0SvVKeaahtln5ZpW01gMUqPYh6BTNt62v4rdS8llC8X0T2U2mEtcHlA4Zi7g9f";
-    const team = "frc3636";
-    fetch(`https://www.thebluealliance.com/api/v3/team/${team}/events`, {
-        headers: {
-            "X-TBA-Auth-Key": token,
-        },
-    })
-        .then((res) => res.json())
-        .then((events) => {
-            let currentEvent: any;
-            for (const event of events) {
-                const startDate = parseTBADate(event.start_date);
-                const endDate = parseTBADate(event.end_date);
-                // make it end at midnight
-                endDate.setDate(endDate.getDate() + 1);
-                const now = Date.now();
-
-                if (
-                    startDate.getTime() < now &&
-                    endDate.getTime() > now &&
-                    (event.webcasts as any[]).some(
-                        (webcast) => webcast.type === "twitch",
-                    )
-                ) {
-                    currentEvent = event;
-                    break;
-                }
-            }
-            if (!currentEvent) {
-                message.className = "wait";
-                return;
-            }
-            const webcast = currentEvent.webcasts.find(
-                (webcast: any) => webcast.type === "twitch",
-            )!;
-            message.className = "done";
-            location.href = "https://twitch.tv/" + webcast.channel;
+        const token =
+            "so0SvVKeaahtln5ZpW01gMUqPYh6BTNt62v4rdS8llC8X0T2U2mEtcHlA4Zi7g9f";
+        const team = "frc3636";
+        fetch(`https://www.thebluealliance.com/api/v3/team/${team}/events`, {
+            headers: {
+                "X-TBA-Auth-Key": token,
+            },
         })
-        .catch((err) => {
-            console.error(err);
-            message.className = "error";
-        });
+            .then((res) => res.json())
+            .then((events) => {
+                let currentEvent: any;
+                for (const event of events) {
+                    const startDate = parseTBADate(event.start_date);
+                    const endDate = parseTBADate(event.end_date);
+                    // make it end at midnight
+                    endDate.setDate(endDate.getDate() + 1);
+                    const now = Date.now();
+
+                    if (
+                        startDate.getTime() < now &&
+                        endDate.getTime() > now &&
+                        (event.webcasts as any[]).some(
+                            (webcast) => webcast.type === "twitch",
+                        )
+                    ) {
+                        currentEvent = event;
+                        break;
+                    }
+                }
+                if (!currentEvent) {
+                    message.className = "wait";
+                    return;
+                }
+                const webcast = currentEvent.webcasts.find(
+                    (webcast: any) => webcast.type === "twitch",
+                )!;
+                message.className = "done";
+                location.href = "https://twitch.tv/" + webcast.channel;
+            })
+            .catch((err) => {
+                console.error(err);
+                message.className = "error";
+            });
     }
 </script>
