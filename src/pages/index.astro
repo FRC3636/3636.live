@@ -8,7 +8,6 @@ import Layout from "../layouts/Layout.astro";
     <h1>
         <img src="/assets/logo.png" alt="3636" width="100" draggable="false" />
     </h1>
-    <br />
     <div class="loading" id="message">
         <div class="lds-check"></div>
         <div class="lds-dual-ring">
@@ -16,26 +15,21 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <div id="wait-msg">
             <h2>Come back soon!</h2>
-            <p>
-                Visit this page during an event including Generals Robotics to
-                watch live matches.
-            </p>
+            <p>Visit during an event to watch live matches.</p>
         </div>
         <div id="error-msg">
-            <h2>Oh no!</h2>
+            <h2>Woah, there!</h2>
             <p>
-                Something went wrong, so we can't automatically send you to the
-                stream. You might have luck finding it on
+                Stream auto-detection is having issues. Find us on
                 <a href="https://www.thebluealliance.com/team/3636">
-                    The Blue Alliance.
+                    The Blue Alliance!
                 </a>
             </p>
             <p>(Are you a nerd? Check the developer console.)</p>
         </div>
     </div>
     <p class="footer">
-        Contact me:
-        <a href="mailto:lewis@lewismcclelland.me">lewis@lewismcclelland.me</a>
+        <a href="https://frcteam3636.com">Generals Robotics</a>
     </p>
 </Layout>
 <script>
@@ -60,6 +54,7 @@ import Layout from "../layouts/Layout.astro";
         })
             .then((res) => res.json())
             .then((events) => {
+                throw new Error();
                 let currentEvent: any;
                 for (const event of events) {
                     const startDate = parseTBADate(event.start_date);
