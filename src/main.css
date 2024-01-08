@@ -3,12 +3,14 @@
 @font-face {
     font-family: Loos;
     src: url(fonts/LoosLCGeo-Variable-Web.woff2);
+    font-display: swap;
 }
 
 @font-face {
     font-family: Montserrat;
     font-style: normal;
     src: url(fonts/Montserrat-VF.woff2);
+    font-display: swap;
 }
 
 :root {
