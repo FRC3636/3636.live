@@ -11,13 +11,21 @@
         "astro": "astro"
     },
     "dependencies": {
-        "@divriots/jampack": "^0.21.1",
-        "@sentry/astro": "^7.92.0",
-        "astro": "^3.4.0",
+        "@divriots/jampack": "^0.33.0",
+        "@sentry/astro": "^9.1.0",
+        "astro": "^5.3.0",
         "astro-seo": "^0.8.0",
-        "modern-normalize": "^2.0.0",
+        "modern-normalize": "^3.0.1",
         "preact": "^10.6.5",
-        "vite-plugin-pwa": "^0.16.5"
+        "vite-plugin-pwa": "^0.21.1"
     },
-    "packageManager": "pnpm@8.10.0-0+sha256.97597bc1145e5ec68a2b6ec49e38ad9e755842d0c63b1a2022a4fc63bac78d1c"
+    "packageManager": "pnpm@10.4.0+sha512.6b849d0787d97f8f4e1f03a9b8ff8f038e79e153d6f11ae539ae7c435ff9e796df6a862c991502695c7f9e8fac8aeafc1ac5a8dab47e36148d183832d886dd52",
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@sentry/cli",
+            "@swc/core",
+            "esbuild",
+            "sharp"
+        ]
+    }
 }
