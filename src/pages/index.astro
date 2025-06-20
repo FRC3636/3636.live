@@ -6,7 +6,7 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
     <h1>
-        <img src="/assets/logo.png" alt="3636" width="100" draggable="false" />
+        <a href="https://frcteam3636.com"><img src="/assets/logo.png" alt="3636" width="100" draggable="false" /></a>
     </h1>
     <div class="loading" id="message">
         <div class="lds-check"></div>
@@ -15,7 +15,13 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <div id="wait-msg">
             <h2>Come back soon!</h2>
-            <p>Once an event starts, return here to watch live matches.</p>
+            <p>
+                Once an event starts, return here to watch live matches.
+                You can view a list of events <a href="https://frcteam3636.com/events">here.</a>
+            </p>
+            <p>
+                <button id="refresh-btn">Refresh</button>
+            </p>  
         </div>
         <div id="error-msg">
             <h2>Woah, there!</h2>
@@ -33,61 +39,74 @@ import Layout from "../layouts/Layout.astro";
     </p>
 </Layout>
 <script>
-    const manualOverride = "";
-    if (manualOverride) {
-        location.href = manualOverride;
-    } else {
-        const message = document.querySelector<HTMLDivElement>("#message")!;
+    function loadEvent() {
+        const manualOverride = "";
+        if (manualOverride) {
+            location.href = manualOverride;
+        } else {
+            const message = document.querySelector<HTMLDivElement>("#message")!;
 
-        function parseTBADate(str: string): Date {
-            const components = str.split("-").map(Number);
-            return new Date(components[0], components[1] - 1, components[2]);
-        }
-
-        const token = "so0SvVKeaahtln5ZpW01gMUqPYh6BTNt62v4rdS8llC8X0T2U2mEtcHlA4Zi7g9f";
-        fetch(`https://www.thebluealliance.com/api/v3/team/frc3636/events`, {
-            headers: {
-                "X-TBA-Auth-Key": token
+            function parseTBADate(str: string): Date {
+                const components = str.split("-").map(Number);
+                return new Date(components[0], components[1] - 1, components[2]);
             }
-        })
-            .then((res) => res.json())
-            .then((events: Event[]) => {
-                let currentWebcast: TwitchWebcast | undefined;
 
-                for (const event of events) {
-                    const startDate = parseTBADate(event.start_date);
-                    const endDate = parseTBADate(event.end_date);
-                    // make it end at midnight
-                    endDate.setDate(endDate.getDate() + 1);
-
-                    const now = Date.now();
-                    const isEventInProgress = startDate.getTime() < now && endDate.getTime() > now;
-
-                    if (isEventInProgress) {
-                        currentWebcast = event.webcasts.find((webcast): webcast is TwitchWebcast => {
-                            return webcast.type === "twitch";
-                        });
-                    }
-
-                    if (currentWebcast) {
-                        break;
-                    }
+            const token = "so0SvVKeaahtln5ZpW01gMUqPYh6BTNt62v4rdS8llC8X0T2U2mEtcHlA4Zi7g9f";
+            const timestamp = new Date().getTime();
+            fetch(`https://www.thebluealliance.com/api/v3/team/frc3636/events?nocache=${timestamp}`, {
+                headers: {
+                    "X-TBA-Auth-Key": token,
                 }
-
-                if (!currentWebcast) {
-                    message.className = "wait";
-                    return;
-                }
-
-                message.className = "done";
-                location.href = "https://twitch.tv/" + currentWebcast.channel;
             })
-            .catch((err) => {
-                console.error(err);
-                message.className = "error";
-                throw err;
-            });
+                .then((res) => res.json())
+                .then((events: Event[]) => {
+                    let currentWebcast: TwitchWebcast | undefined;
+
+                    for (const event of events) {
+                        const startDate = parseTBADate(event.start_date);
+                        const endDate = parseTBADate(event.end_date);
+                        // make it end at midnight
+                        endDate.setDate(endDate.getDate() + 1);
+
+                        const now = Date.now();
+                        const isEventInProgress = startDate.getTime() < now && endDate.getTime() > now;
+
+                        if (isEventInProgress) {
+                            currentWebcast = event.webcasts.find((webcast): webcast is TwitchWebcast => {
+                                return webcast.type === "twitch";
+                            });
+                        }
+
+                        if (currentWebcast) {
+                            break;
+                        }
+                    }
+
+                    if (!currentWebcast) {
+                        message.className = "wait";
+                        return;
+                    }
+
+                    message.className = "done";
+                    location.href = "https://twitch.tv/" + currentWebcast.channel;
+                })
+                .catch((err) => {
+                    console.error(err);
+                    message.className = "error";
+                    throw err;
+                });
+            }
     }
+
+    const refreshBtn = document.querySelector<HTMLButtonElement>("#refresh-btn")!;
+
+    refreshBtn.addEventListener("click", () => {
+        const message = document.querySelector<HTMLDivElement>("#message")!;
+        message.className = "loading";
+        loadEvent();
+    });
+
+    loadEvent();
 
     interface Event {
         webcasts: Webcast[];
